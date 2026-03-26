@@ -11,8 +11,16 @@
 body {
     background: linear-gradient(135deg, #1d3557, #457b9d);
 }
-</style>
 
+/* SOLUCIÓN MOBILE */
+@media (max-width: 768px) {
+    body {
+        display: block !important;
+        height: auto !important;
+        padding-top: 40px;
+    }
+}
+</style>
 </head>
 
 <body class="d-flex align-items-center justify-content-center vh-100">
@@ -28,15 +36,9 @@ body {
 
                     <form method="POST">
 
-                        <div class="mb-3">
-                            <label class="form-label">Usuario</label>
-                            <input name="usuario" class="form-control form-control-lg" required>
-                        </div>
+                        <input name="usuario" class="form-control form-control-lg mb-3" placeholder="Usuario" required>
 
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña</label>
-                            <input name="password" type="password" class="form-control form-control-lg" required>
-                        </div>
+                        <input name="password" type="password" class="form-control form-control-lg mb-3" placeholder="Contraseña" required>
 
                         <button class="btn btn-primary w-100 btn-lg">
                             Ingresar
