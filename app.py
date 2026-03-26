@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import qrcode
 
+BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:5000")
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
 
@@ -26,7 +27,7 @@ def guardar_datos(df):
 
 # ---------------- QR ----------------
 def generar_qr(id_producto):
-    url = f"http://127.0.0.1:5000/producto/{id_producto}"
+    url = f"{BASE_URL}/producto/{id_producto}"
     ruta = f"{QR_FOLDER}/{id_producto}.png"
 
     img = qrcode.make(url)
