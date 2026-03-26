@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import qrcode
 
-BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:5000")
+BASE_URL = os.getenv("BASE_URL", "https://sergioapp.onrender.com")
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
 
