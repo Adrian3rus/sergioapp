@@ -1,50 +1,44 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<div class="card shadow mb-3">
-    <div class="card-body">
+<div class="card shadow">
+<div class="card-body">
 
-        <form method="POST" class="mb-3">
-            <div class="input-group">
-                <input name="query" class="form-control" placeholder="Buscar producto...">
-                <button class="btn btn-primary">Buscar</button>
-            </div>
-        </form>
+<form method="POST" class="mb-3">
+<div class="input-group">
+<input name="query" class="form-control" placeholder="Buscar">
+<button class="btn btn-primary">Buscar</button>
+</div>
+</form>
 
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>QR</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for p in data %}
-                <tr>
-                    <td>{{p.ID}}</td>
-                    <td>{{p.Producto}}</td>
-                    <td>{{p.Cantidad}}</td>
-                    <td>${{p.Precio}}</td>
-                    <td><img src="{{p.QR}}" width="50"></td>
-                    <td>
-                        <a href="/editar/{{p.ID}}" class="btn btn-sm btn-warning">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a href="/eliminar/{{p.ID}}" class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<div class="table-responsive">
+<table class="table table-striped">
+<thead class="table-dark">
+<tr>
+<th>ID</th><th>Producto</th><th>Cantidad</th><th>Precio</th><th>QR</th><th></th>
+</tr>
+</thead>
 
-    </div>
+<tbody>
+{% for p in data %}
+<tr>
+<td>{{p.ID}}</td>
+<td>{{p.Producto}}</td>
+<td>{{p.Cantidad}}</td>
+<td>${{p.Precio}}</td>
+<td><img src="{{p.QR}}" width="50"></td>
+<td>
+<a href="/editar/{{p.ID}}" class="btn btn-warning btn-sm w-100 mb-1">Editar</a>
+<a href="/eliminar/{{p.ID}}" class="btn btn-danger btn-sm w-100">Eliminar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+
+</div>
 </div>
 
 {% endblock %}

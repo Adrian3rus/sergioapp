@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <h2>Subir Excel</h2>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="archivo"><br><br>
-        <button>Subir</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card shadow">
+<div class="card-body">
+
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="archivo" class="form-control mb-2">
+<button class="btn btn-primary">Subir</button>
+</form>
+
+</div>
+</div>
+
+{% endblock %}

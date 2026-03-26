@@ -1,32 +1,20 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <div class="card shadow">
-    <div class="card-body">
+<div class="card-body">
 
-        <h4 class="mb-3">Nuevo Producto</h4>
+<form method="POST">
 
-        <form method="POST">
-            <div class="mb-3">
-                <label>Producto</label>
-                <input name="producto" class="form-control">
-            </div>
+<input name="producto" class="form-control mb-2" placeholder="Producto">
+<input name="cantidad" class="form-control mb-2" placeholder="Cantidad">
+<input name="precio" class="form-control mb-2" placeholder="Precio">
 
-            <div class="mb-3">
-                <label>Cantidad</label>
-                <input name="cantidad" class="form-control">
-            </div>
+<button class="btn btn-success">Guardar</button>
 
-            <div class="mb-3">
-                <label>Precio</label>
-                <input name="precio" class="form-control">
-            </div>
+</form>
 
-            <button class="btn btn-success">Guardar</button>
-        </form>
-
-    </div>
+</div>
 </div>
 
 {% endblock %}

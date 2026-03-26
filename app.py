@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, session
 import pandas as pd
 import os
 import qrcode
@@ -7,26 +7,12 @@ app = Flask(__name__)
 app.secret_key = "clave_secreta"
 
 ARCHIVO = "inventario.xlsx"
-CARPETA_QR = "static/qr"
+QR_FOLDER = "static/qr"
 
-os.makedirs(CARPETA_QR, exist_ok=True)
+os.makedirs(QR_FOLDER, exist_ok=True)
 
 USUARIO = "admin"
 PASSWORD = "1234"
-
-# ---------------- LOGIN ----------------
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        if request.form["usuario"] == USUARIO and request.form["password"] == PASSWORD:
-            session["login"] = True
-            return redirect("/")
-    return render_template("login.html")
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
 
 # ---------------- DATOS ----------------
 def cargar_datos():
@@ -41,13 +27,29 @@ def guardar_datos(df):
 # ---------------- QR ----------------
 def generar_qr(id_producto):
     url = f"http://127.0.0.1:5000/producto/{id_producto}"
-    ruta = f"{CARPETA_QR}/{id_producto}.png"
+    ruta = f"{QR_FOLDER}/{id_producto}.png"
+
     img = qrcode.make(url)
     img.save(ruta)
+
     return ruta
 
+# ---------------- LOGIN ----------------
+@app.route("/login", methods=["GET","POST"])
+def login():
+    if request.method == "POST":
+        if request.form["usuario"] == USUARIO and request.form["password"] == PASSWORD:
+            session["login"] = True
+            return redirect("/")
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
 # ---------------- HOME ----------------
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET","POST"])
 def index():
     if "login" not in session:
         return redirect("/login")
@@ -61,14 +63,13 @@ def index():
     return render_template("index.html", data=df.to_dict(orient="records"))
 
 # ---------------- AGREGAR ----------------
-@app.route("/agregar", methods=["GET", "POST"])
+@app.route("/agregar", methods=["GET","POST"])
 def agregar():
     if "login" not in session:
         return redirect("/login")
 
     if request.method == "POST":
         df = cargar_datos()
-
         nuevo_id = int(df["ID"].max() + 1) if not df.empty else 1
 
         nuevo = {
@@ -87,7 +88,7 @@ def agregar():
     return render_template("agregar.html")
 
 # ---------------- EDITAR ----------------
-@app.route("/editar/<int:id>", methods=["GET", "POST"])
+@app.route("/editar/<int:id>", methods=["GET","POST"])
 def editar(id):
     if "login" not in session:
         return redirect("/login")
@@ -117,19 +118,24 @@ def eliminar(id):
 
     return redirect("/")
 
-# ---------------- VER PRODUCTO (QR) ----------------
+# ---------------- VER PRODUCTO ----------------
 @app.route("/producto/<int:id>")
-def ver_producto(id):
+def producto(id):
     df = cargar_datos()
-    producto = df[df["ID"] == id]
+    prod = df[df["ID"] == id]
 
-    if producto.empty:
+    if prod.empty:
         return "Producto no encontrado"
 
-    return render_template("producto.html", producto=producto.to_dict(orient="records")[0])
+    return render_template("producto.html", producto=prod.to_dict(orient="records")[0])
+
+# ---------------- SCANNER ----------------
+@app.route("/scanner")
+def scanner():
+    return render_template("scanner.html")
 
 # ---------------- SUBIR EXCEL ----------------
-@app.route("/subir", methods=["GET", "POST"])
+@app.route("/subir", methods=["GET","POST"])
 def subir():
     if "login" not in session:
         return redirect("/login")
@@ -138,13 +144,9 @@ def subir():
         archivo = request.files["archivo"]
         if archivo:
             archivo.save(ARCHIVO)
-        return redirect("/")
+            return redirect("/")
 
     return render_template("subir.html")
 
-@app.route("/scanner")
-def scanner():
-    return render_template("scanner.html")
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
