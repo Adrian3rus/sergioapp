@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h4 class="mb-3">Nuevo Producto</h4>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label>Producto</label>
+                <input name="producto" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Cantidad</label>
+                <input name="cantidad" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Precio</label>
+                <input name="precio" class="form-control">
+            </div>
+
+            <button class="btn btn-success">Guardar</button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h4 class="mb-3">Editar Producto</h4>
+
+        <form method="POST">
+            <input name="producto" value="{{producto.Producto}}" class="form-control mb-2">
+            <input name="cantidad" value="{{producto.Cantidad}}" class="form-control mb-2">
+            <input name="precio" value="{{producto.Precio}}" class="form-control mb-2">
+
+            <button class="btn btn-primary">Actualizar</button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
